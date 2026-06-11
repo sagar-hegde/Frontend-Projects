@@ -70,7 +70,7 @@ A web-based ticket booking platform for museum visitors.
 
 ---
 
-### 5. 🦁 Animal World – Zoo Visit Booking Website
+### 5. 🦁 Zoo Ticketing Website
 
 A zoo visit booking system designed to simplify visitor reservations.
 
