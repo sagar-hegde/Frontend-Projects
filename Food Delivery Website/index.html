@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CraveBites</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+
+        body {
+            background: lightgrey;
+        }
+
+        header {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e23744;
+        }
+
+        .search-box {
+            flex: 1;
+            margin: 10px 20px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .nav-buttons button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            background: #e23744;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .nav-buttons button:hover {
+            background: #267e3e;
+        }
+
+        .container {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .cuisine {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .rating {
+            background: #267e3e;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+        }
+
+        .card-footer:hover{
+            color: #e23744;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 400px;
+            max-width: 90%;
+        }
+
+        .close {
+            float: right;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .menu-item {
+            padding: 6px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .addCartBtn {
+            padding: 6px 6px;
+            border: none;
+            border-radius: 10px;
+            background-color: #e23744;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            float: right;
+        }
+
+        .addCartBtn:hover {
+            background-color: #048e11;
+        }
+
+        footer {
+            background: white;
+            color: black;
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1000px;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">🍔 CraveBites</div>
+        <div class="search-box">
+            <input id="searchInput" placeholder="Search restaurants or foods...">
+        </div>
+        <div class="nav-buttons">
+            <a href="cart.html"><button id="cartBtn">Cart (<span id="cartCount">0</span>)</button></a>
+            <a href="login.html"><button id="loginBtn">Login</button></a>
+        </div>
+    </header>
+
+    <div class="container" id="restaurantContainer"></div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">✖</span>
+            <div id="modalDetails"></div>
+        </div>
+    </div>
+
+
+    <footer>
+        <div class="footer-content">
+            <h3>🍔 CraveBites</h3>
+            <p>Find the best food from your favorite restaurants.</p>
+
+            <p style="margin-top:10px;font-size:13px;">
+                © 2026 CraveBites. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const restaurants = [
+            {
+                id: 1, name: "Spicy India", cuisine: "Indian", rating: 4.5, image: "https://images.unsplash.com/photo-1601050690597-df0568f70950",
+                menu: [
+                    { name: "Butter Chicken", price: 350 },
+                    { name: "Paneer Tikka", price: 250 },
+                    { name: "Garlic Naan", price: 80 }
+                ]
+            },
+            {
+                id: 2, name: "Pizza Paradise", cuisine: "Italian", rating: 4.2, image: "https://images.unsplash.com/photo-1604382355076-af4b0eb60143",
+                menu: [
+                    { name: "Margherita Pizza", price: 400 },
+                    { name: "Pepperoni Pizza", price: 450 },
+                    { name: "Garlic Bread", price: 120 }
+                ]
+            },
+            {
+                id: 3, name: "Dragon Wok", cuisine: "Chinese", rating: 4.3, image: "https://images.unsplash.com/photo-1585032226651-759b368d7246",
+                menu: [
+                    { name: "Hakka Noodles", price: 200 },
+                    { name: "Veg Manchurian", price: 220 },
+                    { name: "Fried Rice", price: 180 }
+                ]
+            },
+            {
+                id: 4, name: "Burger Hub", cuisine: "Fast Food", rating: 4.1, image: "https://images.unsplash.com/photo-1550547660-d9450f859349",
+                menu: [
+                    { name: "Cheese Burger", price: 150 },
+                    { name: "Chicken Burger", price: 180 },
+                    { name: "Fries", price: 80 }
+                ]
+            },
+            {
+                id: 5, name: "Dessert Heaven", cuisine: "Desserts", rating: 4.6, image: "https://images.unsplash.com/photo-1551024601-bec78aea704b",
+                menu: [
+                    { name: "Chocolate Cake", price: 200 },
+                    { name: "Brownie", price: 150 },
+                    { name: "Ice Cream", price: 120 }
+                ]
+            },
+            {
+                id: 6, name: "Sushi World", cuisine: "Japanese", rating: 4.7, image: "https://pixelz.cc/wp-content/uploads/2018/12/sushi-uhd-4k-wallpaper.jpg",
+                menu: [
+                    { name: "Sushi Platter", price: 600 },
+                    { name: "Salmon Nigiri", price: 350 },
+                    { name: "Miso Soup", price: 120 }
+                ]
+            },
+            {
+                id: 7, name: "Taco Fiesta", cuisine: "Mexican", rating: 4.4, image: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
+                menu: [
+                    { name: "Tacos", price: 180 },
+                    { name: "Burritos", price: 220 },
+                    { name: "Quesadillas", price: 200 }
+                ]
+            },
+            {
+                id: 8, name: "Mediterraneo", cuisine: "Mediterranean", rating: 4.3, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjyrg2Rp6j32BHa0Ns123awur_FbEaGnqhRQ&s",
+                menu: [
+                    { name: "Falafel", price: 150 },
+                    { name: "Hummus", price: 120 },
+                    { name: "Shawarma", price: 250 }
+                ]
+            },
+            {
+                id: 9, name: "Seafood Shack", cuisine: "Seafood", rating: 4.5, image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
+                menu: [
+                    { name: "Grilled Salmon", price: 550 },
+                    { name: "Lobster Roll", price: 650 },
+                    { name: "Fried Calamari", price: 300 }
+                ]
+            },
+            {
+                id: 10, name: "Vegan Delight", cuisine: "Vegan", rating: 4.2, image: "https://images.unsplash.com/photo-1525755662778-989d0524087e",
+                menu: [
+                    { name: "Vegan Burger", price: 200 },
+                    { name: "Quinoa Salad", price: 180 },
+                    { name: "Smoothie Bowl", price: 220 }
+                ]
+            },
+            {
+                id: 11, name: "BBQ Barn", cuisine: "Barbecue", rating: 4.6, image: "https://wallpapers.com/images/hd/food-barbecue-grill-fv8qhds6i0hnambb.jpg",
+                menu: [
+                    { name: "Ribs", price: 500 },
+                    { name: "Pulled Pork Sandwich", price: 350 },
+                    { name: "Cornbread", price: 100 }
+                ]
+            },
+            {
+                id: 12, name: "Pasta Corner", cuisine: "Italian", rating: 4.3, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5fN1NuEZuv9n-PXUQqvxDjDcBBhkXXjWaZQ&s",
+                menu: [
+                    { name: "Spaghetti Carbonara", price: 400 },
+                    { name: "Fettuccine Alfredo", price: 420 },
+                    { name: "Lasagna", price: 450 }
+                ]
+            },
+            {
+                id: 13, name: "Kebab King", cuisine: "Middle Eastern", rating: 4.4, image: "https://www.shutterstock.com/image-photo/deliciously-spiced-chicken-tikka-kabab-600nw-2495838045.jpg",
+                menu: [
+                    { name: "Chicken Kebab", price: 300 },
+                    { name: "Beef Shawarma", price: 320 },
+                    { name: "Tabbouleh", price: 150 }
+                ]
+            },
+            {
+                id: 14, name: "Breakfast Bliss", cuisine: "Breakfast", rating: 4.5, image: "https://images.unsplash.com/photo-1495214783159-3503fd1b572d",
+                menu: [
+                    { name: "Pancakes", price: 180 },
+                    { name: "Omelette", price: 150 },
+                    { name: "Avocado Toast", price: 200 }
+                ]
+            },
+            {
+                id: 15, name: "Noodle Nook", cuisine: "Asian Fusion", rating: 4.2, image: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe",
+                menu: [
+                    { name: "Ramen", price: 250 },
+                    { name: "Pad Thai", price: 230 },
+                    { name: "Dumplings", price: 200 }
+                ]
+            }
+        ];
+
+        const container = document.getElementById("restaurantContainer");
+        const searchInput = document.getElementById("searchInput");
+        const modal = document.getElementById("modal");
+        const modalDetails = document.getElementById("modalDetails");
+        const closeModal = document.getElementById("closeModal");
+
+        let cart = JSON.parse(localStorage.getItem("efood")) || [];
+
+        function saveCart() {
+            localStorage.setItem("efood", JSON.stringify(cart));
+            updateCartCount();
+        }
+
+        function updateCartCount() {
+            document.getElementById("cartCount").innerText = cart.reduce((sum, c) => sum + c.quantity, 0);
+        }
+
+        function stars(rating) {
+            let starsHTML = "";
+            for (let i = 1; i <= 5; i++) {
+                starsHTML += i <= Math.floor(rating) ? "⭐" : "☆";
+            }
+            return starsHTML;
+        }
+
+        function displayRestaurants(list) {
+            container.innerHTML = "";
+            list.forEach(r => {
+                const card = document.createElement("div");
+                card.className = "card";
+                card.innerHTML = `
+                    <img src="${r.image}">
+                    <div class="card-body">
+                        <div class="card-title">${r.name}</div>
+                        <div class="cuisine">${r.cuisine}</div>
+                        <div class="rating">${stars(r.rating)} ${r.rating}</div>
+                        <div class="card-footer">
+                            <span>View Menu</span>
+                        </div>
+                    </div>
+                `;
+                card.addEventListener("click", (e) => {
+                    showDetails(r);
+                });
+                container.appendChild(card);
+            });
+        }
+
+        function showDetails(r) {
+            modal.style.display = "flex";
+            modalDetails.innerHTML = `
+        <h2>${r.name}</h2>
+        <p>${r.cuisine}</p>
+        <p>Rating: ${stars(r.rating)} ${r.rating}</p>
+        <h3 style="margin-top:15px;">Menu</h3>
+        ${r.menu.map((item, index) => `
+            <div class="menu-item">
+                ${item.name} - ₹${item.price} 
+                <button class="addCartBtn" data-id="${r.id}" data-index="${index}">Add to Cart</button>
+            </div>
+        `).join("")}
+    `;
+
+            document.querySelectorAll(".addCartBtn").forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    const rid = parseInt(e.target.dataset.id);
+                    const mid = parseInt(e.target.dataset.index);
+                    addToCart(rid, mid);
+                });
+            });
+        }
+
+        function addToCart(restaurantId, menuIndex) {
+            const restaurant = restaurants.find(r => r.id === restaurantId);
+            const item = restaurant.menu[menuIndex];
+
+            const existing = cart.find(c => c.restaurantId === restaurantId && c.menuIndex === menuIndex);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ restaurantId, menuIndex, quantity: 1 });
+            }
+
+            saveCart();
+            alert(`${item.name} added to cart!`);
+        }
+
+        closeModal.onclick = () => modal.style.display = "none";
+        window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; }
+
+        let filteredRestaurants = [...restaurants];
+        searchInput.addEventListener("input", () => {
+            const text = searchInput.value.toLowerCase();
+            filteredRestaurants = restaurants.filter(r => r.name.toLowerCase().includes(text) || r.cuisine.toLowerCase().includes(text));
+            displayRestaurants(filteredRestaurants);
+        });
+
+        displayRestaurants(restaurants);
+        updateCartCount();
+    </script>
+</body>
+
+</html>

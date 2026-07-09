@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cart</title>
+
+    <style>
+        body {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            background: #f6f6f6;
+            margin: 0;
+        }
+
+        header {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #e23744;
+        }
+
+        button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            background: #e23744;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #267e3e;
+        }
+
+        .container {
+            padding: 30px;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .cart-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .item-name {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .controls button {
+            padding: 6px 12px;
+            border: none;
+            background: #e23744;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+
+        .controls button:hover {
+            background: #0b04d2;
+        }
+
+        .total-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .checkout-btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #267e3e;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .checkout-btn:hover {
+            background: #01631b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">🍔 My Cart</div>
+        <a href="index.html"><button id="loginBtn">Home</button></a>
+    </header>
+
+    <div class="container">
+
+        <div id="cartItems"></div>
+
+        <div class="total-box">
+            <h3>Total: ₹<span id="totalPrice">0</span></h3>
+            <button class="checkout-btn" onclick="checkout()">Checkout</button>
+        </div>
+
+    </div>
+
+    <script>
+
+        const restaurants = [
+            {
+                id: 1,
+                menu: [
+                    { name: "Butter Chicken", price: 350 },
+                    { name: "Paneer Tikka", price: 250 },
+                    { name: "Garlic Naan", price: 80 }
+                ]
+            },
+            {
+                id: 2,
+                menu: [
+                    { name: "Margherita Pizza", price: 400 },
+                    { name: "Pepperoni Pizza", price: 450 },
+                    { name: "Garlic Bread", price: 120 }
+                ]
+            },
+            {
+                id: 3,
+                menu: [
+                    { name: "Hakka Noodles", price: 200 },
+                    { name: "Veg Manchurian", price: 220 },
+                    { name: "Fried Rice", price: 180 }
+                ]
+            }
+        ];
+
+        let cart = JSON.parse(localStorage.getItem("efood")) || [];
+
+        const cartContainer = document.getElementById("cartItems");
+        const totalPrice = document.getElementById("totalPrice");
+
+        function renderCart() {
+
+            cartContainer.innerHTML = "";
+            let total = 0;
+
+            if (cart.length === 0) {
+                cartContainer.innerHTML = "<h2>Your cart is empty 🛒</h2>";
+                totalPrice.innerText = 0;
+                return;
+            }
+
+            cart.forEach((c, index) => {
+
+                const restaurant = restaurants.find(r => r.id === c.restaurantId);
+                const item = restaurant.menu[c.menuIndex];
+
+                let price = item.price * c.quantity;
+                total += price;
+
+                const div = document.createElement("div");
+
+                div.className = "cart-item";
+
+                div.innerHTML = `
+
+                <div>
+                <div class="item-name">${item.name}</div>
+                <div>₹${item.price} x ${c.quantity}</div>
+                </div>
+
+                <div class="controls">
+                <button onclick="decrease(${index})">-</button>
+                <button onclick="increase(${index})">+</button>
+                <button onclick="removeItem(${index})">Remove</button>
+                </div>
+
+                `;
+
+                cartContainer.appendChild(div);
+
+            });
+
+            totalPrice.innerText = total;
+
+            localStorage.setItem("efood", JSON.stringify(cart));
+
+        }
+
+        function increase(index) {
+            cart[index].quantity++;
+            renderCart();
+        }
+
+        function decrease(index) {
+            cart[index].quantity--;
+
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+
+            renderCart();
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            renderCart();
+        }
+
+        function checkout() {
+
+            if (cart.length === 0) {
+                alert("Cart is empty");
+                return;
+            }
+
+            alert("Order placed successfully! 🎉");
+
+            cart = [];
+            localStorage.setItem("efood", JSON.stringify(cart));
+
+            renderCart();
+        }
+
+        renderCart();
+
+    </script>
+
+</body>
+
+</html>
