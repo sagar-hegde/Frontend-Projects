@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        .logo {
+            color: black;
+            margin-left: 25px;
+            font-size: 25px;
+        }
+
+        nav {
+            background: linear-gradient(110deg, #cd81e4, #eabf97);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav_links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav li {
+            margin: 0 16px;
+            font-size: 20px;
+        }
+
+        nav a {
+            font-weight: 500;
+            font-size: 20px;
+            color: black;
+            text-decoration: none;
+            padding: 9px 25px;
+            border: 1px solid; 
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.3s ease 0s;
+        }
+
+        nav a:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 32px auto;
+            padding: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        .content {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .content h2 {
+            color: #294886;
+            font-size: 28px;
+        }
+
+        .content p {
+            font-size: 18px;
+            color: black;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 26px;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+
+            .menu-toggle {
+                display: block;
+                margin-right: 20px;
+            }
+
+            .nav_links {
+                position: absolute;
+                top: 70px;
+                right: 0;
+                background: linear-gradient(110deg, #cd81e4, #eabf97);
+                width: 100%;
+                flex-direction: column;
+                display: none;
+                text-align: center;
+                padding: 20px 0;
+            }
+
+            .nav_links.active {
+                display: flex;
+            }
+
+            nav li {
+                margin: 15px 0;
+            }
+
+            .monument-card {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+
+            main {
+                margin: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <span class="logo">MTS</span>
+        <i class="fa-solid fa-bars menu-toggle" onclick="toggleMenu()"></i>
+        <ul class="nav_links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="ticket.html">My Tickets</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </nav>
+    <main>
+        <div class="content">
+            <h2>About Us</h2>
+            <p>Welcome to the Museum Ticketing System (MTS), where history meets technology. Our mission is to make your museum visits seamless.</p>
+            <p>We are dedicated to providing an exceptional visitor experience, ensuring that every visit is educational, inspiring, and convenient. Our paperless ticket system is designed to reduce our environmental footprint and streamline the entry process, allowing you to spend more time enjoying the exhibits and less time waiting in line.</p>
+            <p>Thank you for choosing MTS. Together, we can celebrate our rich heritage while protecting our planet for future generations.</p>
+        </div>
+    </main>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector(".nav_links").classList.toggle("active");
+        }
+    </script>
+</body>
+</html>

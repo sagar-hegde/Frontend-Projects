@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        .logo {
+            color: black;
+            margin-left: 25px;
+            font-size: 25px;
+        }
+
+        nav {
+            background: linear-gradient(110deg, #cd81e4, #eabf97);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav_links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav li {
+            margin: 0 16px;
+            font-size: 20px;
+        }
+
+        nav a {
+            font-weight: 500;
+            font-size: 20px;
+            color: black;
+            text-decoration: none;
+            padding: 9px 25px;
+            border: 1px double;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.3s ease 0s;
+        }
+
+        nav a:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 32px auto;
+            padding: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .monument-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 16px;
+            flex: 1 1 calc(33.333% - 32px);
+            box-sizing: border-box;
+            position: relative;
+            max-width: 400px;
+
+        }
+
+        .monument-card img {
+            width: 100%;
+            height: 200px;
+            border-radius: 5px;
+        }
+
+        .book button {
+            width: 90%;
+            height: 45px;
+            border: none;
+            position: absolute;
+            bottom: 2%;
+            left: 50%;
+            transform: translate(-50%);
+            background: #2691d9;
+            border-radius: 25px;
+            font-size: 18px;
+            color: #e9f4fb;
+            font-weight: 700;
+            cursor: pointer;
+            outline: none;
+            padding: 0 20px;
+        }
+
+        .book button:hover {
+            background-color: #119a01;
+        }
+
+        footer {
+            text-align: center;
+            padding: 16px;
+            background: linear-gradient(110deg, #cd81e4, #eabf97);
+            color: #fff;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 26px;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+
+            .menu-toggle {
+                display: block;
+                margin-right: 20px;
+            }
+
+            .nav_links {
+                position: absolute;
+                top: 70px;
+                right: 0;
+                background: linear-gradient(110deg, #cd81e4, #eabf97);
+                width: 100%;
+                flex-direction: column;
+                display: none;
+                text-align: center;
+                padding: 20px 0;
+            }
+
+            .nav_links.active {
+                display: flex;
+            }
+
+            nav li {
+                margin: 15px 0;
+            }
+
+            .monument-card {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+
+            main {
+                margin: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <span class="logo">MTS</span>
+        <i class="fa-solid fa-bars menu-toggle" onclick="toggleMenu()"></i>
+        <ul class="nav_links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="ticket.html">My Tickets</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </nav>
+    <main>
+        <h2>Welcome to MTS</h2>
+        <p>Explore and book tickets for Historic Museums in India.</p>
+    </main>
+    <main>
+        <h2>Explore Museums</h2>
+        <div class="card-container">
+            <div class="monument-card">
+                <img src="BN3.png" alt="Chhatrapati Shivaji Maharaj Vastu Sangrahalaya">
+                <h3>Chhatrapati Shivaji Maharaj Vastu Sangrahalaya</h3>
+                <p>Located in Mumbai, this museum was established in the early 20th century. It features a diverse range
+                    of exhibits, including art, artifacts, and decorative pieces from various regions and time periods.
+                </p><br><br>
+                <a class="book" href="book.html"
+                    onclick="storeMuseum(1, 'Chhatrapati Shivaji Maharaj Vastu Sangrahalaya')"><button>Book
+                        Now</button></a>
+            </div>
+            <div class="monument-card">
+                <img src="BN1.jpg" alt="Indian Museum">
+                <h3>Indian Museum</h3>
+                <p>Established in 1814, the Indian Museum in Kolkata is one of the oldest and largest museums in India.
+                    It houses a vast collection of artifacts, including art, archaeology, anthropology, and geology.</p>
+                <br><br><br>
+                <a class="book" href="book.html" onclick="storeMuseum(2, 'Indian Museum')"><button>Book Now</button></a>
+            </div>
+            <div class="monument-card">
+                <img src="BN5.jpg" alt="Victoria Memorial">
+                <h3>Victoria Memorial</h3>
+                <p>While not a traditional museum, the Victoria Memorial in Kolkata is an iconic structure that houses a
+                    museum within its premises. Built in memory of Queen Victoria, the museum showcases artifacts from
+                    the British colonial period.</p><br><br>
+                <a class="book" href="book.html" onclick="storeMuseum(3, 'Victoria Memorial')"><button>Book
+                        Now</button></a>
+            </div>
+            <div class="monument-card">
+                <img src="BN2.jpg" alt="National Museum">
+                <h3>National Museum</h3>
+                <p>The National Museum in New Delhi is one of the premier museums in India. It has an extensive
+                    collection of art and artifacts, representing different periods of Indian history and culture. The
+                    museum's exhibits include sculptures, paintings, manuscripts, and more.</p><br><br>
+                <a class="book" href="book.html" onclick="storeMuseum(4, 'National Museum')"><button>Book
+                        Now</button></a>
+            </div>
+            <div class="monument-card">
+                <img src="BN4.jpg" alt="Salar Jung Museum">
+                <h3>Salar Jung Museum</h3>
+                <p>The Salar Jung Museum is one of the three national museums in India and is renowned for its
+                    collection of art and antiques. It houses a diverse range of items, including paintings, sculptures,
+                    textiles, manuscripts, and furniture.</p><br><br>
+                <a class="book" href="book.html" onclick="storeMuseum(5, 'Salar Jung Museum')"><button>Book
+                        Now</button></a>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>Copyright &copy; 2026 MTS. All Rights Reserved.</p>
+    </footer>
+    <script>
+        function storeMuseum(id, name) {
+            localStorage.setItem("museumId", id);
+            localStorage.setItem("museumName", name);
+        }
+
+        function toggleMenu() {
+            document.querySelector(".nav_links").classList.toggle("active");
+        }
+    </script>
+</body>
+
+</html>

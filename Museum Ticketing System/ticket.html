@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        nav {
+            background: linear-gradient(110deg, #cd81e4, #eabf97);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .logo {
+            color: black;
+            font-size: 25px;
+            margin-left: 25px;
+            font-weight: bold;
+        }
+
+        .nav_links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 16px;
+        }
+
+        .nav_links li {
+            font-size: 20px;
+        }
+
+        .nav_links a {
+            font-weight: 500;
+            font-size: 20px;
+            color: black;
+            text-decoration: none;
+            padding: 9px 25px;
+            border: 1px solid;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav_links a:hover {
+            background-color: limegreen;
+            color: white;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 32px auto;
+            padding: 20px;
+            border-radius: 5px;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .ticket {
+            border: 3px solid #ddd;
+            border-radius: 5px;
+            padding: 12px;
+            box-sizing: border-box;
+            position: relative;
+            max-width: 400px;
+        }
+
+        .ticket-header {
+            margin-bottom: 20px;
+            font-size: 17px;
+        }
+
+        .bold-label {
+            font-weight: bold;
+        }
+
+        .bold-label-date {
+            font-weight: bold;
+            margin-left: 60px;
+        }
+
+        .ticket p {
+            margin: 4px 0;
+        }
+
+        .details-row {
+            display: flex;
+            gap: 30px;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 16px;
+            background: linear-gradient(110deg, #cd81e4, #eabf97);
+            color: #fff;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 26px;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+
+            .menu-toggle {
+                display: block;
+                margin-right: 20px;
+            }
+
+            .nav_links {
+                position: absolute;
+                top: 70px;
+                right: 0;
+                background: linear-gradient(110deg, #cd81e4, #eabf97);
+                width: 100%;
+                flex-direction: column;
+                display: none;
+                text-align: center;
+                padding: 20px 0;
+                z-index: 1000;
+            }
+
+            .nav_links.active {
+                display: flex;
+            }
+
+            nav li {
+                margin: 15px 0;
+            }
+
+            .monument-card {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+
+            main {
+                margin: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <span class="logo">MTS</span>
+    <i class="fa-solid fa-bars menu-toggle" onclick="toggleMenu()"></i>
+    <ul class="nav_links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="ticket.html">My Tickets</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="login.html">Login</a></li>
+    </ul>
+</nav>
+
+<main>
+    <div class="container" id="ticketContainer"></div>
+    <div id="errorContainer" class="error-message"></div>
+
+    <script>
+        function formatDate(dateStr) {
+            const [year, month, day] = dateStr.split('-');
+            return `${day}-${month}-${year}`;
+        }
+
+        function loadTickets() {
+            const ticketContainer = document.getElementById('ticketContainer');
+            const errorContainer = document.getElementById('errorContainer');
+
+            const ticketData = JSON.parse(localStorage.getItem("ticketData"));
+
+            if (!ticketData) {
+                errorContainer.innerText = "No tickets found.";
+                return;
+            }
+
+            const formattedDate = formatDate(ticketData.date);
+
+            const ticketElement = document.createElement('div');
+            ticketElement.className = 'ticket';
+
+            ticketElement.innerHTML = `
+                <div class="ticket-header">
+                    <span class="bold-label">Booking ID :</span> ${ticketData.bookingId}
+                    <span class="bold-label-date">Date :</span> ${formattedDate}
+                </div>
+                <p><span class="label">Name :</span> ${ticketData.name}</p>
+                <p><span class="label">Contact :</span> ${ticketData.contact}</p>
+                <p><span class="label">Location :</span> ${ticketData.museum}</p>
+                <div class="details-row">
+                    <p><span class="label">Adults :</span> ${ticketData.adults}</p>
+                    <p><span class="label">Children :</span> ${ticketData.children}</p>
+                </div>
+                <p><span class="label">Total Tickets :</span> ${ticketData.totalTickets}</p>
+                <p><span class="label">Total Fare :</span> ${ticketData.totalFare}</p>
+            `;
+
+            ticketContainer.appendChild(ticketElement);
+        }
+
+        document.addEventListener('DOMContentLoaded', loadTickets);
+    </script>
+</main>
+
+<footer>
+    <p>Copyright &copy; 2024 MTS. All Rights Reserved.</p>
+</footer>
+
+<script>
+    function toggleMenu() {
+        document.querySelector(".nav_links").classList.toggle("active");
+    }
+</script>
+
+</body>
+</html>
