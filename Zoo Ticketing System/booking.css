@@ -1,0 +1,179 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+}
+
+body {
+    background-color: #eef2f3;
+    color: #333;
+}
+
+/* Header */
+header {
+    background-color: rgb(59, 162, 59);
+}
+
+nav {
+    max-width: 1200px;
+    margin: auto;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    width: 50px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-links a {
+    color: #e8f5e9;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-links a:hover {
+    color: #ffcc80;
+}
+
+/* Login Button */
+.login-btn {
+    background-color: #ff9800;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    background-color: blue;
+}
+
+.submit{
+    background-color: #ff9800;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    margin-top: 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.submit:hover {
+    background-color: green;
+}
+
+/* Hero */
+.hero {
+    height: 400px;
+    background: url("zoo.jpg") center/cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+}
+
+.hero-content h2 {
+    font-size: 3rem;
+}
+
+/* Tickets Section */
+.tickets {
+    padding: 50px 20px;
+    background-color: #f1f8e9;
+    text-align: center;
+}
+
+.ticket-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.ticket-card {
+    width: 280px;
+    height: 150px;
+    margin: 15px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.ticket-card h3 {
+    color: #2e7d32;
+}
+
+.price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.free {
+    color: green;
+}
+
+/* Booking Form */
+.booking-form {
+    padding: 50px 20px;
+    background-color: #fff3e0;
+    text-align: center;
+}
+
+.booking-form form {
+    max-width: 450px;
+    margin: auto;
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.booking-form label {
+    display: block;
+    text-align: left;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.booking-form input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+}
+
+/* Footer */
+footer {
+    background-color: #1b5e20;
+    color: #c8e6c9;
+    text-align: center;
+    padding: 25px;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .nav-links {
+        display: none;
+    }
+
+    .ticket-card {
+        width: 100%;
+    }
+}

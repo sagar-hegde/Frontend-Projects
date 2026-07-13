@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tickets</title>
+    <link rel="stylesheet" href="booking.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo"><img src="logo.png" class="logo"></div>
+
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="animals.html">Animals</a></li>
+                <li><a href="booking.html">Book Ticket</a></li>
+                <li><a href="ticket.html">My Ticket</a></li>
+            </ul>
+
+            <a href="login.html" class="login-btn">Login</a>
+        </nav>
+    </header>
+
+    <!-- Banner -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Book Your Tickets</h2>
+            <p>Plan your visit to Animal World</p>
+        </div>
+    </section>
+
+    <!-- Ticket Rules -->
+    <section class="tickets">
+        <h2>Ticket Prices</h2>
+
+        <div class="ticket-container">
+            <div class="ticket-card">
+                <h3>Adults</h3>
+                <p>Age: 13 – 60 years</p>
+                <p class="price">₹50</p>
+            </div>
+
+            <div class="ticket-card">
+                <h3>Children</h3>
+                <p>Age: 5 – 12 years</p>
+                <p class="price">₹25</p>
+            </div>
+
+            <div class="ticket-card">
+                <h3>Free Entry</h3>
+                <p>Under 5 years</p>
+                <p>Above 60 years</p>
+                <p class="price free">FREE</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Booking Form -->
+    <section class="booking-form">
+        <h2>Book Tickets</h2>
+
+        <form>
+            <label>Full Name</label>
+            <input type="text" id="fullName" placeholder="Enter your name" required>
+
+            <label>Email</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+
+            <label>Number of Adults (₹50)</label>
+            <input type="number" id="adults" min="0" value="0">
+
+            <label>Number of Children (₹25)</label>
+            <input type="number" id="children" min="0" value="0">
+
+            <label>Visit Date</label>
+            <input type="date" id="visitDate" required>
+
+            <button type="submit" class="submit">Confirm Booking</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Animal World. All rights reserved.</p>
+    </footer>
+
+    <script>
+    const form = document.querySelector("form");
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const fullName = document.getElementById("fullName").value;
+        const email = document.getElementById("email").value;
+        const adults = document.getElementById("adults").value;
+        const children = document.getElementById("children").value;
+        const visitDate = document.getElementById("visitDate").value;
+
+        // Create booking object
+        const bookingData = {
+            fullName: fullName,
+            email: email,
+            adults: parseInt(adults),
+            children: parseInt(children),
+            visitDate: visitDate
+        };
+
+        // Convert object to JSON string
+        const bookingJSON = JSON.stringify(bookingData);
+
+        // Store JSON in localStorage
+        localStorage.setItem("booking", bookingJSON);
+
+        // Redirect
+        window.location.href = "ticket.html";
+    });
+</script>
+
+</body>
+
+</html>

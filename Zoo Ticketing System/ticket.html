@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Animal World - Ticket</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            background-color: #ffffff;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        footer {
+            margin-top: auto;
+        }
+
+        .ticket-box {
+            max-width: 500px;
+            margin: auto;
+            text-align: left;
+            border: 1px solid grey;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <div class="logo"><img src="logo.png" class="logo"></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="animals.html">Animals</a></li>
+            <li><a href="booking.html">Book Ticket</a></li>                
+            <li><a href="ticket.html">My Ticket</a></li>
+        </ul>
+        <a href="login.html" class="login-btn">Login</a>
+    </nav>
+</header>
+
+<section class="about">
+    <h2>Your Zoo Ticket</h2><br>
+
+    <div class="visit-card ticket-box">
+        <p><strong>Full Name:</strong> <span id="tName"></span></p>
+        <p><strong>Email:</strong> <span id="tEmail"></span></p>
+        <p><strong>Adults:</strong> <span id="tAdults"></span></p>
+        <p><strong>Children:</strong> <span id="tChildren"></span></p>
+        <p><strong>Visit Date:</strong> <span id="tDate"></span></p>
+        <hr>
+        <p><strong>Total Amount:</strong> ₹<span id="tTotal"></span></p>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 Animal World. All rights reserved.</p>
+</footer>
+
+<script>
+    const bookingJSON = localStorage.getItem("booking");
+
+    if (bookingJSON) {
+        const bookingData = JSON.parse(bookingJSON);
+
+        const name = bookingData.fullName;
+        const email = bookingData.email;
+        const adults = bookingData.adults || 0;
+        const children = bookingData.children || 0;
+
+        let date = bookingData.visitDate;
+        if (date) {
+            const parts = date.split("-");
+            date = parts[2] + " - " + parts[1] + " - " + parts[0];
+        }
+
+        const total = (adults * 50) + (children * 25);
+
+        document.getElementById("tName").textContent = name;
+        document.getElementById("tEmail").textContent = email;
+        document.getElementById("tAdults").textContent = adults;
+        document.getElementById("tChildren").textContent = children;
+        document.getElementById("tDate").textContent = date;
+        document.getElementById("tTotal").textContent = total;
+    } else {
+        document.querySelector(".visit-card").innerHTML =
+            "<p style='text-align:center;'>No booking found. Please book a ticket first.</p>";
+    }
+</script>
+
+</body>
+</html>
